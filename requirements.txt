@@ -3,6 +3,4 @@ pandas
 matplotlib
 numpy
 plotly
-kaleido
 xarray
-toolbox @ git+https://github.com/janjoch/toolbox.git@v0.2.3
