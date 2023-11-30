@@ -1,6 +1,0 @@
-numba
-pandas
-matplotlib
-numpy
-plotly
-xarray
