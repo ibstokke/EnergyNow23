@@ -19,7 +19,7 @@ And converts calculates the most profitable mode of operation using:
 3. ...
 
 For calculation application uses datasets:
-- [EPEX Spot Market D-1](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=TABLE&areaType=BZN&atch=false&dateTime.dateTime=02.12.2023+00:00|CET|DAY&biddingZone.values=CTY|10YCH-SWISSGRIDZ!BZN|10YCH-SWISSGRIDZ&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2))
+- [EPEX Spot Market D-1 Hourly Prices](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=TABLE&areaType=BZN&atch=false&dateTime.dateTime=02.12.2023+00:00|CET|DAY&biddingZone.values=CTY|10YCH-SWISSGRIDZ!BZN|10YCH-SWISSGRIDZ&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2))
 - [Swissgrid Auction Results for Control Power](https://www.swissgrid.ch/en/home/customers/topics/ancillary-services/tenders.html)
 
 
@@ -34,6 +34,13 @@ For calculation application uses datasets:
 Operating Capacity P can be freely choosen between P<sub>min</sub> < P < P<sub>max</sub> with resolution of 1MW: 
 
 ![Screenshot](ElProd.png)
+
+The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production is $P_{el} = S_{el} * P $, where we can freely adjust $P$:
+
+
+
+
+
 
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
