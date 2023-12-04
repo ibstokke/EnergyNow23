@@ -22,10 +22,11 @@ For calculation application uses datasets:
 - [EPEX Spot Market D-1 Hourly Prices](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=TABLE&areaType=BZN&atch=false&dateTime.dateTime=02.12.2023+00:00|CET|DAY&biddingZone.values=CTY|10YCH-SWISSGRIDZ!BZN|10YCH-SWISSGRIDZ&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2))
 - [Swissgrid Auction Results for Control Power](https://www.swissgrid.ch/en/home/customers/topics/ancillary-services/tenders.html)
 
-The electricity prices $S_{el}$ have resolution of 1 hour. Primary Control Power tenders $P_{PRL}$ are however resolved on periods of 4 hours: $t = {00:00-04:00 , 04:00-08:00, 08:00-12:00, 12:00-16:00, 16:00-20:00, 20:00-24:00}$
+The electricity prices $S_{el}$ have resolution of 1 hour. Primary Control Power tenders $P_{PRL}$ are however resolved on periods of 4 hours: t = {00:00-04:00 , 04:00-08:00, 08:00-12:00, 12:00-16:00, 16:00-20:00, 20:00-24:00}
+
 For cost comparision, the income from electricity production at those time periods is summed up:
 ![Screenshot](FigurePlots/PriceComp.jpg)
-Example Prices 
+Example Prices from 2023
 
 
 ## Electricity Production Only <a name="ElProd"></a>
@@ -49,10 +50,33 @@ The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the
 ## Selection Algorithm: 
 The most profitable mode of operating is operting the plant at times when the income is maximal while reservoir usage minimal. Case of electricity production only is straightforward, as income curves are linear. The time periods with the highest electricity prices $S_{el}$ are most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
 
-'
-
-
-'
+`
+    #order the result table containing the electricity prices
+    
+    result_df = result_df.sort_values(by=['C', 'B'], ascending=False)
+    result_df = result_df.reset_index(drop=True)
+    
+    #iterate throgh rows
+    for index, row in result_df.iterrows():
+        #break statements to do not overexceed the table size
+        if (index >= len(result_df)):
+            break    
+        #stop if the reservoir is empty
+        if (res < p1.P_min):
+            break
+        #dont operate the power plant if the prices are negative 
+        if (p1.P_max*row['S_el'] <= 0)
+            break
+        #if you cannot opearate at full capacity, discharge the entire reservoir 
+        elif (res <= p1.P_max):
+            result_df.at[index, 'In_el'] =  p1.reservoir * row['S_el'] 
+            result_df.at[index, 'P_el'] =  p1.reservoir
+            res = 0
+        #if possible operate at maximal capacity
+        else:
+            result_df.at[index, 'In_el'] = p1.P_max*row['S_el'] 
+            result_df.at[index, 'P_el'] = p1.P_max
+            res -= p1.P_max
 
 
 
