@@ -16,7 +16,7 @@ And converts calculates the most profitable mode of operation using:
 
 1. [Electricity Production only](#ElProd)
 2. [Electricity Production and Primary Control Reserves](#PRL)
-3. ...
+3. [Selection Algorithm]
 
 For calculation application uses datasets:
 - [EPEX Spot Market D-1 Hourly Prices](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=TABLE&areaType=BZN&atch=false&dateTime.dateTime=02.12.2023+00:00|CET|DAY&biddingZone.values=CTY|10YCH-SWISSGRIDZ!BZN|10YCH-SWISSGRIDZ&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2))
@@ -35,26 +35,30 @@ Operating Capacity P can be freely choosen between P<sub>min</sub> < P < P<sub>m
 
 ![Screenshot](FigurePlots/ElProd.png)
 
-The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production is $P_{el} = S_{el} * P $, where we can freely adjust $P$:
+The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production is $$P_{el} = S_{el} * P $$
+, where we can freely adjust $P$:
 
 ![Screenshot](FigurePlots/ElIncome.png)
-
 
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
 ### Assumptions
+- ONE price for Primary Control Reserves (PRL): price-as-clear: highest accepted bidder sets the price.
+- While offering PRL, the downwards and upwards regulation contribute equally. While operating at given capacity $P$ those contributions add up to zero: no reservoir is used up.
 
-- ONE price for Primary Control Reserves (PRL): price-as-clear: highest accepted bidder sets the price for all
-- While offering PRL, the downwards and upwards regulation is equal on average: No reservoir is used up.
-
-PRL regulation is symmetric. It can be offered freely within the band given by the minimal difference between the maximal or minimal capacity and operating capacity of the power plant: 
+PRL regulation is symmetric. The maximal PRL capacity that can be offered is given by the minimal difference between the operating capacity and either maximal and minimal capcity: 
 
 ![Screenshot](FigurePlots/PRLProd.png)
 
-,which can be expressed by: $max(P-P_{min}, P_{max}-P)$. The total income consists of income from electricity production and the income from offered PRL: $P_{PRL} = S_{el} * P  + S_{PRL}*max(P-P_{min}, P_{max}-P)$: 
+With given price for PRL $S_{PRL}, thehe maximal income from PRL at given capacity P is described by the expression $P_{PRL} \cdot max(P-P_{min}, P_{max}-P)$.
+
+**As no reservoir is used up, it is always most profitable to offer maximal PRL capacity whenever possible**
+
+The total income is given by the sum electricity production and primary control reserves:
+$$S_{PRL} =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$$
+
 
 ![Screenshot](FigurePlots/PRLIncome.png)
-
 
 
 
