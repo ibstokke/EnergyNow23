@@ -42,7 +42,7 @@ Operating Capacity P can be choosen between P<sub>min</sub> < P < P<sub>max</sub
 
 ![Screenshot](FigurePlots/ElProd.png)
 
-The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production can be calculated by $C_{el}(P) = S_{el} * P $
+The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production can be calculated by $ C_{el}(P) = S_{el} * P $
 
 ![Screenshot](FigurePlots/ElIncome.png)
 
