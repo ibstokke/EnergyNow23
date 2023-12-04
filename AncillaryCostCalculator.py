@@ -207,6 +207,8 @@ def Algorithm(Pmin, Pmax, reservoir, calc_year):
     for index, row in result_df.iterrows():
         if (res < p1.P_min):
             break
+        if (p1.priceFunction(res, row['S_el'], row['S_prl']) <= 0)
+            break
         elif (res <= p1.P_mid):
             result_df.at[index, 'In_as'] = p1.priceFunction(res, row['S_el'], row['S_prl'])
             result_df.at[index, 'P_as'] = res
@@ -259,6 +261,8 @@ def Algorithm(Pmin, Pmax, reservoir, calc_year):
             break
         #print("test")
         if (res < p1.P_min):
+            break
+        if (p1.P_max*row['S_el'] <= 0)
             break
         elif (res <= p1.P_max):
             result_df.at[index, 'In_el'] =  p1.reservoir * row['S_el'] 
