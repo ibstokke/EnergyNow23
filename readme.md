@@ -16,11 +16,16 @@ And converts calculates the most profitable mode of operation using:
 
 1. [Electricity Production only](#ElProd)
 2. [Electricity Production and Primary Control Reserves](#PRL)
-3. [Selection Algorithm]
+3. [Selection Algorithm](#SelAlg)
 
 For calculation application uses datasets:
 - [EPEX Spot Market D-1 Hourly Prices](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=TABLE&areaType=BZN&atch=false&dateTime.dateTime=02.12.2023+00:00|CET|DAY&biddingZone.values=CTY|10YCH-SWISSGRIDZ!BZN|10YCH-SWISSGRIDZ&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2))
 - [Swissgrid Auction Results for Control Power](https://www.swissgrid.ch/en/home/customers/topics/ancillary-services/tenders.html)
+
+PRL tenders last 4 hours at time periods. For cost comparision, the income from electricity production at 4 consecutive is summed up:
+
+Example electricity production and PRL tender prices for 2023: 
+![Screenshot](FigurePlots/PriceComp.png)
 
 
 ## Electricity Production Only <a name="ElProd"></a>
@@ -28,8 +33,10 @@ For calculation application uses datasets:
 ### Assumptions:
 - Fixed operating cost of a power plant. This value does not vary between the operation modes and therefore is not considered for calculations​
 - Reservoir is constant for the year​. No inflow/losses.
-- Using datasets from the past: possible to use simulations about the  future prices​
+- Using datasets from the past: It is however possible to run the application on forecasts. 
 - No inflation
+
+
 
 Operating Capacity P can be freely choosen between P<sub>min</sub> < P < P<sub>max</sub> with resolution of 1MW: 
 
@@ -39,6 +46,9 @@ The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the
 , where we can freely adjust $P$:
 
 ![Screenshot](FigurePlots/ElIncome.png)
+
+##Selection Algorithm: 
+The most profitable mode of operating is operting the plant at such times, that using 
 
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
@@ -59,6 +69,9 @@ $$S_{PRL} =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$$
 
 
 ![Screenshot](FigurePlots/PRLIncome.png)
+
+The bent in the income curve is caused by the fact that the PRL band is maximal at $P_{min} + P_{max} / 2$, and decreases symmetricly away from this point until decreasing to zero at $P_{min}$ and $P_{max}$, where only electricity production can be obtained.
+
 
 
 
