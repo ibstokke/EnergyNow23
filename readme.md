@@ -105,30 +105,42 @@ The bent in the income curve is caused by the fact that the PRL band is maximal 
 
 ## Selection Algorithm
 
-Here the selection process is a bit more tricky: It is both possible that either $C_{el}(P_{max})$ or  $C_{el}(P_{max} + P_{min})/2)$ offer the best ratio between income and reservoir. The algorithm must cosider two cases: 
+Here the selection process is a bit more tricky: For each time period i is both possible that either $C_{PRL}_i(P_{max})$ or  $C_{PRL}_i(P_{max} + P_{min})/2)$ offer the best ratio between income and reservoir. The algorithm sorts the dataset according to $C_{PRL}_i(P_{max})$ and cosiders two cases: 
 
-1. 
+1. It is more profitable to operate on two subsequent time periods on $C_{PRL}_i(P_{max} + P_{min})/2)$ and $C_{PRL}_{i+1}(P_{max} + P_{min})/2)$ 
+2. It is profitable to operate on full capacity on same time period $C_{PRL}_i(P_{max})$
 
 ```python
+    #sort dataset
+     result_df = result_df.sort_values(by=['C', 'B'], ascending=False)
+    result_df = result_df.reset_index(drop=True)
+
+    #iterate through entire dataset
     for index, row in result_df.iterrows():
+        #terminate if reservoir empty
         if (res < p1.P_min):
             break
+        #terminate if PRL would bring negative income
         if (max(result_df.at[index, 'B'],result_df.at[index, 'C']) <= 0):
             break
-        elif (res <= p1.P_mid):
-            result_df.at[index, 'In_as'] = p1.priceFunction(res, row['S_el'], row['S_prl'])
-            result_df.at[index, 'P_as'] = res
-            res = 0
-            break
-        elif (res < p1.P_max):
-            result_df.at[index, 'In_as'] = result_df.at[index, 'B']
-            result_df.at[index, 'P_as'] = p1.P_mid
-            res = res - p1.P_mid
-        elif (index >= len(result_df)-1):
+        #terminate if table would be exceeded
+        if (index >= len(result_df)-1):
             result_df.at[index, 'In_as'] = result_df.at[index, 'C']
             result_df.at[index, 'P_as'] = p1.P_max
             res = res - p1.P_max
             break
+        #empty reservoir
+        elif (res < p1.P_mid):
+            result_df.at[index, 'In_as'] = p1.priceFunction(res, row['S_el'], row['S_prl'])
+            result_df.at[index, 'P_as'] = res
+            res = 0
+            break
+        #if possible empty reservoir at Pmid
+        elif (res < p1.P_max):
+            result_df.at[index, 'In_as'] = result_df.at[index, 'B']
+            result_df.at[index, 'P_as'] = p1.P_mid
+            res = res - p1.P_mid
+        
         elif ((result_df.at[index, 'B'] + result_df.at[index+1, 'B'])/(p1.P_max + p1.P_min) > (result_df.at[index, 'C'])/p1.P_max):
             result_df.at[index, 'In_as'] = result_df.at[index, 'B']
             result_df.at[index, 'P_as'] = p1.P_mid
