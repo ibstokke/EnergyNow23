@@ -4,7 +4,7 @@ You can find a .exe for win64 here: [https://drive.google.com/drive/folders/1AXr
 
 # Ancillary Services Calculator
 
-The aim of this application is to compare the income of ower plant offering electricity producition and ancillary services in Switzerland.
+The aim of this application is to compare the income of ower plant offering electricity production and ancillary services in Switzerland.
 
 The application takes few variables, which can be applied to any power plant: 
 
@@ -46,7 +46,7 @@ The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the
 
 ![Screenshot](FigurePlots/ElIncome.png)
 
-## Selection Algorithm: 
+### Selection Algorithm: 
 The most profitable mode of operation is running the plant at times when the income is maximal while minimalizing the reservoir usage. In case of Electricity production mode of operation the income curves are linear, making this calculation is straightforward: The time periods with the highest electricity prices $S_{el}$ are the most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
 
 ```python
@@ -82,32 +82,31 @@ The most profitable mode of operation is running the plant at times when the inc
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
 ### Assumptions
-- Price-as-clear: One price for Primary Control Reserves operation mode $S_{PRL}: highest accepted bid sets the price for all.
+- Price-as-clear: One price for Primary Control Reserves operation mode $S_{PRL}$: highest accepted bid sets the price for all.
 - While offering PRL, the downwards and upwards regulation contribute equally to overall capacity. While operating the power plant at capacity $P$ those contributions add up to zero: no resulting reservoir usage.
 
 PRL regulation is symmetric. The maximal capacity PRL can be offered  is given by the minimal difference between the operating capacity and either maximal and minimal operating capcity: 
 
 ![Screenshot](FigurePlots/PRLProd.png)
 
-With given price for PRL $S_{PRL}, the maximal income from PRL at given operating P is described by the expression $P_{PRL} \cdot$ min$(P-P_{min}, P_{max}-P)$.
+With given price for PRL $S_{PRL}, the maximal income from PRL at given operating P is calculated by the expression $P_{PRL} \cdot min(P-P_{min}, P_{max}-P)$.
 
 **Important remark:**
-As no reservoir is used up while offering PRL, it is always most profitable to offer maximal PRL capacity whenever possible
+As no reservoir is used up while offering PRL, it is always most profitable to offer maximal PRL capacity
 
-The total income is given by the sum electricity production and primary control reserves:
-$$S_{PRL}(P) =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$$
+The total income is given by the sum electricity production and PRL: $S_{PRL}(P) =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$
 
 
 ![Screenshot](FigurePlots/PRLIncome.png)
 
-The bent in the income curve is caused by the fact that the PRL band is maximal at $P_{min} + P_{max} / 2$, and decreases symmetricly away from this point until decreasing to zero at $P_{min}$ and $P_{max}$, where only electricity production can be obtained.
+The bent in the income curve is caused by the fact that the PRL band is maximal at $(P_{min} + P_{max}) / 2$, and decreases symmetricly from this point reaching zero at $P_{min}$ and $P_{max}$, where only electricity production can be offered.
 
-## Selection Algorithm
+### Selection Algorithm
 
-Here the selection process is a bit more tricky: For each time period i is both possible that either $C_{PRL}_i(P_{max})$ or  $C_{PRL}_i(P_{max} + P_{min})/2)$ offer the best ratio between income and reservoir. The algorithm sorts the dataset according to $C_{PRL}_i(P_{max})$ and cosiders two cases: 
+Here the selection process is a bit more tricky: For each time period i is both possible that either $C^i_{PRL}(P_{max})$ or  $C^i_{PRL}(P_{max} + P_{min})/2)$ offer the best ratio between income and reservoir usage. The algorithm sorts the dataset according to $C^i_{PRL}(P_{max})$ and cosiders two cases: 
 
-1. It is more profitable to operate on two subsequent time periods on $C_{PRL}_i(P_{max} + P_{min})/2)$ and $C_{PRL}_{i+1}(P_{max} + P_{min})/2)$ 
-2. It is profitable to operate on full capacity on same time period $C_{PRL}_i(P_{max})$
+1. It is more profitable to operate on two subsequent time periods $i$ and $j = i+1$ gaining $C^i_{PRL}(P_{max} + P_{min})/2)$ and $C^j_{PRL} (P_{max} + P_{min})/2)$ 
+2. It is profitable to operate on full capacity on time period $i$ gaining $C^i_{PRL}(P_{max})$
 
 ```python
     #sort dataset
