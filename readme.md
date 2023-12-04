@@ -33,7 +33,7 @@ For calculation application uses datasets:
 
 Operating Capacity P can be freely choosen between P<sub>min</sub> < P < P<sub>max</sub> with resolution of 1MW: 
 
-![Screenshot](ElProd.png)
+![Screenshot](FigurePlots\ElProd.png)
 
 The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production is $P_{el} = S_{el} * P $, where we can freely adjust $P$:
 
