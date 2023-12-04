@@ -214,11 +214,6 @@ def Algorithm(Pmin, Pmax, reservoir, calc_year):
             result_df.at[index, 'P_as'] = res
             res = 0
             break
-        elif (res == p1.P_max):
-            result_df.at[index, 'In_as'] = result_df.at[index, 'C']
-            result_df.at[index, 'P_as'] = p1.P_max
-            res = 0
-            break
         elif (res < p1.P_max):
             result_df.at[index, 'In_as'] = result_df.at[index, 'B']
             result_df.at[index, 'P_as'] = p1.P_mid
