@@ -92,7 +92,8 @@ PRL regulation is symmetric. The maximal PRL capacity that can be offered is giv
 
 With given price for PRL $S_{PRL}, thehe maximal income from PRL at given capacity P is described by the expression $P_{PRL} \cdot max(P-P_{min}, P_{max}-P)$.
 
-**As no reservoir is used up, it is always most profitable to offer maximal PRL capacity whenever possible**
+**Important remark:**
+: As no reservoir is used up while offering PRL, it is always most profitable to offer maximal PRL capacity whenever possible
 
 The total income is given by the sum electricity production and primary control reserves:
 $$S_{PRL}(P) =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$$
