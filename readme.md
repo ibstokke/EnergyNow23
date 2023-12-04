@@ -25,7 +25,7 @@ For calculation application uses datasets:
 PRL tenders last 4 hours at time periods. For cost comparision, the income from electricity production at 4 consecutive is summed up:
 
 Example electricity production and PRL tender prices for 2023: 
-![Screenshot](FigurePlots/PriceComp.png)
+![Screenshot](FigurePlots/PriceComp.jpg)
 
 
 ## Electricity Production Only <a name="ElProd"></a>
