@@ -93,7 +93,7 @@ PRL regulation is symmetric. The maximal PRL capacity that can be offered is giv
 With given price for PRL $S_{PRL}, thehe maximal income from PRL at given capacity P is described by the expression $P_{PRL} \cdot max(P-P_{min}, P_{max}-P)$.
 
 **Important remark:**
-: As no reservoir is used up while offering PRL, it is always most profitable to offer maximal PRL capacity whenever possible
+As no reservoir is used up while offering PRL, it is always most profitable to offer maximal PRL capacity whenever possible
 
 The total income is given by the sum electricity production and primary control reserves:
 $$S_{PRL}(P) =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$$
@@ -102,6 +102,43 @@ $$S_{PRL}(P) =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$$
 ![Screenshot](FigurePlots/PRLIncome.png)
 
 The bent in the income curve is caused by the fact that the PRL band is maximal at $P_{min} + P_{max} / 2$, and decreases symmetricly away from this point until decreasing to zero at $P_{min}$ and $P_{max}$, where only electricity production can be obtained.
+
+## Selection Algorithm
+
+Here the selection process is a bit more tricky: It is both possible that either $C_{el}(P_{max})$ or  $C_{el}(P_{max} + P_{min})/2)$ offer the best ratio between income and reservoir. The algorithm must cosider two cases: 
+
+1. 
+
+```python
+    for index, row in result_df.iterrows():
+        if (res < p1.P_min):
+            break
+        if (max(result_df.at[index, 'B'],result_df.at[index, 'C']) <= 0):
+            break
+        elif (res <= p1.P_mid):
+            result_df.at[index, 'In_as'] = p1.priceFunction(res, row['S_el'], row['S_prl'])
+            result_df.at[index, 'P_as'] = res
+            res = 0
+            break
+        elif (res < p1.P_max):
+            result_df.at[index, 'In_as'] = result_df.at[index, 'B']
+            result_df.at[index, 'P_as'] = p1.P_mid
+            res = res - p1.P_mid
+        elif (index >= len(result_df)-1):
+            result_df.at[index, 'In_as'] = result_df.at[index, 'C']
+            result_df.at[index, 'P_as'] = p1.P_max
+            res = res - p1.P_max
+            break
+        elif ((result_df.at[index, 'B'] + result_df.at[index+1, 'B'])/(p1.P_max + p1.P_min) > (result_df.at[index, 'C'])/p1.P_max):
+            result_df.at[index, 'In_as'] = result_df.at[index, 'B']
+            result_df.at[index, 'P_as'] = p1.P_mid
+            res -= p1.P_mid
+        else:
+            result_df.at[index, 'In_as'] = result_df.at[index, 'C']
+            result_df.at[index, 'P_as'] = p1.P_max
+            res = res - p1.P_max
+```
+
 
 
 
