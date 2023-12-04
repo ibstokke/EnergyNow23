@@ -42,12 +42,12 @@ Operating Capacity P can be choosen between P<sub>min</sub> < P < P<sub>max</sub
 
 ![Screenshot](FigurePlots/ElProd.png)
 
-The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production can be calculated by $ C_{el}(P) = S_{el} * P $
+The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production can be calculated by $C_{el}(P) = S_{el} * P$
 
 ![Screenshot](FigurePlots/ElIncome.png)
 
 ## Selection Algorithm: 
-The most profitable mode of operation is running the plant at times when the income is maximal while minimalizing the reservoir usage. In case of Electricity prodcution mode of operation this calculation is straightforward, as income curves are linear. The time periods with the highest electricity prices $S_{el}$ are most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
+The most profitable mode of operation is running the plant at times when the income is maximal while minimalizing the reservoir usage. In case of Electricity production mode of operation the income curves are linear, making this calculation is straightforward: The time periods with the highest electricity prices $S_{el}$ are the most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
 
 ```python
     #order the result table containing the electricity prices
@@ -82,14 +82,14 @@ The most profitable mode of operation is running the plant at times when the inc
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
 ### Assumptions
-- ONE price for Primary Control Reserves (PRL): price-as-clear: highest accepted bidder sets the price.
-- While offering PRL, the downwards and upwards regulation contribute equally. While operating at given capacity $P$ those contributions add up to zero: no reservoir is used up.
+- Price-as-clear: One price for Primary Control Reserves operation mode $S_{PRL}: highest accepted bid sets the price for all.
+- While offering PRL, the downwards and upwards regulation contribute equally to overall capacity. While operating the power plant at capacity $P$ those contributions add up to zero: no resulting reservoir usage.
 
-PRL regulation is symmetric. The maximal PRL capacity that can be offered is given by the minimal difference between the operating capacity and either maximal and minimal capcity: 
+PRL regulation is symmetric. The maximal capacity PRL can be offered  is given by the minimal difference between the operating capacity and either maximal and minimal operating capcity: 
 
 ![Screenshot](FigurePlots/PRLProd.png)
 
-With given price for PRL $S_{PRL}, thehe maximal income from PRL at given capacity P is described by the expression $P_{PRL} \cdot max(P-P_{min}, P_{max}-P)$.
+With given price for PRL $S_{PRL}, the maximal income from PRL at given operating P is described by the expression $P_{PRL} \cdot$ min$(P-P_{min}, P_{max}-P)$.
 
 **Important remark:**
 As no reservoir is used up while offering PRL, it is always most profitable to offer maximal PRL capacity whenever possible
