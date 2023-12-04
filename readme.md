@@ -22,10 +22,10 @@ For calculation application uses datasets:
 - [EPEX Spot Market D-1 Hourly Prices](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=TABLE&areaType=BZN&atch=false&dateTime.dateTime=02.12.2023+00:00|CET|DAY&biddingZone.values=CTY|10YCH-SWISSGRIDZ!BZN|10YCH-SWISSGRIDZ&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2))
 - [Swissgrid Auction Results for Control Power](https://www.swissgrid.ch/en/home/customers/topics/ancillary-services/tenders.html)
 
-PRL tenders last 4 hours at time periods. For cost comparision, the income from electricity production at 4 consecutive is summed up:
-
-Example electricity production and PRL tender prices for 2023: 
+The electricity prices $S_{el}$ have resolution of 1 hour. Primary Control Power tenders $P_{PRL}$ are however resolved on periods of 4 hours: $t = {00:00-04:00 , 04:00-08:00, 08:00-12:00, 12:00-16:00, 16:00-20:00, 20:00-24:00}$
+For cost comparision, the income from electricity production at those time periods is summed up:
 ![Screenshot](FigurePlots/PriceComp.jpg)
+Example Prices 
 
 
 ## Electricity Production Only <a name="ElProd"></a>
@@ -42,13 +42,19 @@ Operating Capacity P can be freely choosen between P<sub>min</sub> < P < P<sub>m
 
 ![Screenshot](FigurePlots/ElProd.png)
 
-The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production is $$P_{el} = S_{el} * P $$
-, where we can freely adjust $P$:
+The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production is $$C_{el}(P) = S_{el} * P $$
 
 ![Screenshot](FigurePlots/ElIncome.png)
 
-##Selection Algorithm: 
-The most profitable mode of operating is operting the plant at such times, that using 
+## Selection Algorithm: 
+The most profitable mode of operating is operting the plant at times when the income is maximal while reservoir usage minimal. Case of electricity production only is straightforward, as income curves are linear. The time periods with the highest electricity prices $S_{el}$ are most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
+
+'
+
+
+'
+
+
 
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
@@ -65,7 +71,7 @@ With given price for PRL $S_{PRL}, thehe maximal income from PRL at given capaci
 **As no reservoir is used up, it is always most profitable to offer maximal PRL capacity whenever possible**
 
 The total income is given by the sum electricity production and primary control reserves:
-$$S_{PRL} =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$$
+$$S_{PRL}(P) =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$$
 
 
 ![Screenshot](FigurePlots/PRLIncome.png)
