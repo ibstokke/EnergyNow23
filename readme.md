@@ -42,12 +42,12 @@ Operating Capacity P can be choosen between P<sub>min</sub> < P < P<sub>max</sub
 
 ![Screenshot](FigurePlots/ElProd.png)
 
-The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production is $$C_{el}(P) = S_{el} * P $$
+The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production can be calculated by $C_{el}(P) = S_{el} * P $
 
 ![Screenshot](FigurePlots/ElIncome.png)
 
 ## Selection Algorithm: 
-The most profitable mode of operating is operting the plant at times when the income is maximal while reservoir usage minimal. Case of electricity production only is straightforward, as income curves are linear. The time periods with the highest electricity prices $S_{el}$ are most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
+The most profitable mode of operation is running the plant at times when the income is maximal while minimalizing the reservoir usage. In case of Electricity prodcution mode of operation this calculation is straightforward, as income curves are linear. The time periods with the highest electricity prices $S_{el}$ are most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
 
 ```python
     #order the result table containing the electricity prices
