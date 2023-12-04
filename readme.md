@@ -4,42 +4,41 @@ You can find a .exe for win64 here: [https://drive.google.com/drive/folders/1AXr
 
 # Ancillary Services Calculator
 
-The aim of this application is to provide comparision of income for a power plant offering different ancillary services in Switzerland.
+The aim of this application is to compare the income of ower plant offering electricity producition and ancillary services in Switzerland.
 
-The application takes a simple input which can be applied to any power plant: 
+The application takes few variables, which can be applied to any power plant: 
 
 - Maximal Capacity P<sub>min</sub>
 - Minimal Capacity P<sub>max</sub>
-- Annual Reservoir Capacity Res
+- Annual Reservoir Capacity R
 
-And converts calculates the most profitable mode of operation using:
+Than calculates the most profitable mode of operation:
 
-1. [Electricity Production only](#ElProd)
+1. [Electricity Production](#ElProd)
 2. [Electricity Production and Primary Control Reserves](#PRL)
-3. [Selection Algorithm](#SelAlg)
 
 For calculation application uses datasets:
 - [EPEX Spot Market D-1 Hourly Prices](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=TABLE&areaType=BZN&atch=false&dateTime.dateTime=02.12.2023+00:00|CET|DAY&biddingZone.values=CTY|10YCH-SWISSGRIDZ!BZN|10YCH-SWISSGRIDZ&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2))
 - [Swissgrid Auction Results for Control Power](https://www.swissgrid.ch/en/home/customers/topics/ancillary-services/tenders.html)
 
-The electricity prices $S_{el}$ have resolution of 1 hour. Primary Control Power tenders $P_{PRL}$ are however resolved on periods of 4 hours: t = {00:00-04:00 , 04:00-08:00, 08:00-12:00, 12:00-16:00, 16:00-20:00, 20:00-24:00}
+The electricity prices $S_{el}$ have resolution of 1 hour and Primary Control Power tenders $P_{PRL}$ have resolution of 4 hours: 
+t = {00:00-04:00 , 04:00-08:00, 08:00-12:00, 12:00-16:00, 16:00-20:00, 20:00-24:00}
 
-For cost comparision, the income from electricity production at those time periods is summed up:
+For cost comparision, the income from electricity production is summed up during one tender of four hours:
 ![Screenshot](FigurePlots/PriceComp.jpg)
-Example Prices from 2023
+
+Example of prices of electricity production and primary control from 2023. 
 
 
 ## Electricity Production Only <a name="ElProd"></a>
 
 ### Assumptions:
-- Fixed operating cost of a power plant. This value does not vary between the operation modes and therefore is not considered for calculations​
+- Fixed operating cost of a power plant. This value does not vary between the operation modes and therefore is not considered for calculations​.
 - Reservoir is constant for the year​. No inflow/losses.
-- Using datasets from the past: It is however possible to run the application on forecasts. 
+- Using datasets from the past: Same application can be run on forecasts. 
 - No inflation
 
-
-
-Operating Capacity P can be freely choosen between P<sub>min</sub> < P < P<sub>max</sub> with resolution of 1MW: 
+Operating Capacity P can be choosen between P<sub>min</sub> < P < P<sub>max</sub> with resolution of 1MW: 
 
 ![Screenshot](FigurePlots/ElProd.png)
 
@@ -69,8 +68,8 @@ The most profitable mode of operating is operting the plant at times when the in
             break
         #if you cannot opearate at full capacity, discharge the entire reservoir 
         elif (res <= p1.P_max):
-            result_df.at[index, 'In_el'] =  p1.reservoir * row['S_el'] 
-            result_df.at[index, 'P_el'] =  p1.reservoir
+            result_df.at[index, 'In_el'] =  res * row['S_el'] 
+            result_df.at[index, 'P_el'] =  resp
             res = 0
         #if possible operate at maximal capacity
         else:
