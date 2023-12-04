@@ -50,7 +50,7 @@ The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the
 ## Selection Algorithm: 
 The most profitable mode of operating is operting the plant at times when the income is maximal while reservoir usage minimal. Case of electricity production only is straightforward, as income curves are linear. The time periods with the highest electricity prices $S_{el}$ are most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
 
-`
+```python
     #order the result table containing the electricity prices
     
     result_df = result_df.sort_values(by=['C', 'B'], ascending=False)
@@ -78,7 +78,7 @@ The most profitable mode of operating is operting the plant at times when the in
             result_df.at[index, 'P_el'] = p1.P_max
             res -= p1.P_max
 
-
+```
 
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
