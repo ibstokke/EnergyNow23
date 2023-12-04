@@ -37,16 +37,24 @@ Operating Capacity P can be freely choosen between P<sub>min</sub> < P < P<sub>m
 
 The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the income from the electricity production is $P_{el} = S_{el} * P $, where we can freely adjust $P$:
 
-
-
-
+![Screenshot](FigurePlots/ElIncome.png)
 
 
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
 ### Assumptions
 
-- ONE price for PRL: price-as-clear: highest accepted bidder sets the price for all
-- PRL same contribution from downwards and upwards on average: not using up the reservoir​.
+- ONE price for Primary Control Reserves (PRL): price-as-clear: highest accepted bidder sets the price for all
+- While offering PRL, the downwards and upwards regulation is equal on average: No reservoir is used up.
+
+PRL regulation is symmetric. It can be offered freely within the band given by the minimal difference between the maximal or minimal capacity and operating capacity of the power plant: 
+
+![Screenshot](FigurePlots/PRLProd.png)
+
+,which can be expressed by: $max(P-P_{min}, P_{max}-P)$. The total income consists of income from electricity production and the income from offered PRL: $P_{PRL} = S_{el} * P  + S_{PRL}*max(P-P_{min}, P_{max}-P)$: 
+
+![Screenshot](FigurePlots/PRLIncome.png)
+
+
 
 
