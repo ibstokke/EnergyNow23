@@ -1,40 +1,40 @@
 # Ancillary Services Calculator
 
-The aim of this application is to compare the income of ower plant offering electricity production and ancillary services in Switzerland.
+The aim of this application is to compare the income of ower plant offering electricity production and primary control power (PCR) in Switzerland.
 
 The application takes few variables, which can be applied to any power plant: 
 
-- Maximal Capacity P<sub>min</sub>
-- Minimal Capacity P<sub>max</sub>
-- Annual Reservoir Capacity R
+- Maximal Power P<sub>min</sub>
+- Minimal Power P<sub>max</sub>
+- Annual Reservoir Energy R
 
 Than calculates the most profitable mode of operation:
 
-1. [Electricity Production](#ElProd)
+1. [Electricity Production only](#ElProd)
 2. [Electricity Production and Primary Control Reserves](#PRL)
 
 For calculation application uses datasets:
 - [EPEX Spot Market D-1 Hourly Prices](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=TABLE&areaType=BZN&atch=false&dateTime.dateTime=02.12.2023+00:00|CET|DAY&biddingZone.values=CTY|10YCH-SWISSGRIDZ!BZN|10YCH-SWISSGRIDZ&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2))
 - [Swissgrid Auction Results for Control Power](https://www.swissgrid.ch/en/home/customers/topics/ancillary-services/tenders.html)
 
-The electricity prices $S_{el}$ have resolution of 1 hour and Primary Control Power tenders $P_{PRL}$ have resolution of 4 hours: 
+The electricity prices $S_{el}$ have resolution of 1 hour and Primary Control Power tenders $P_{PCR}$ have resolution of 4 hours: 
 t = {00:00-04:00 , 04:00-08:00, 08:00-12:00, 12:00-16:00, 16:00-20:00, 20:00-24:00}
 
 For cost comparision, the income from electricity production is summed up during one tender of four hours:
 ![Screenshot](FigurePlots/PriceComp.jpg)
 
-Example of prices of electricity production and primary control from 2023. 
+Example of prices of electricity production and primary control reserves from year 2023. 
 
 
 ## Electricity Production Only <a name="ElProd"></a>
 
 ### Assumptions:
-- Fixed operating cost of a power plant. This value does not vary between the operation modes and therefore is not considered for calculations​.
-- Reservoir is constant for the year​. No inflow/losses.
-- Using datasets from the past: Same application can be run on forecasts. 
-- No inflation
+- Equal operating cost  - cancelled during calculations
+- No filling of reservoir throughout the year
+- Inflation and exchange rate not considered
+- Using past datasets for simulating the future
 
-Operating Capacity P can be choosen between P<sub>min</sub> < P < P<sub>max</sub> with resolution of 1MW: 
+Operating Power $P$ can be choosen in range P<sub>min</sub> < P < P<sub>max</sub> with resolution of 1MW: 
 
 ![Screenshot](FigurePlots/ElProd.png)
 
@@ -78,19 +78,19 @@ The most profitable mode of operation is running the plant at times when the inc
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
 ### Assumptions
-- Price-as-clear: One price for Primary Control Reserves operation mode $S_{PRL}$: highest accepted bid sets the price for all.
+- Price-as-clear: One price for Primary Control Reserves operation mode $S_{PCR}$: highest accepted bid sets the price for all.
 - While offering PRL, the downwards and upwards regulation contribute equally to overall capacity. While operating the power plant at capacity $P$ those contributions add up to zero: no resulting reservoir usage.
 
 PRL regulation is symmetric. The maximal capacity PRL can be offered  is given by the minimal difference between the operating capacity and either maximal and minimal operating capcity: 
 
 ![Screenshot](FigurePlots/PRLProd.png)
 
-With given price for PRL $S_{PRL}$, the maximal income from PRL at given operating P is calculated by the expression $S_{PRL} \cdot min(P-P_{min}, P_{max}-P)$.
+With given price for PRL $S_{PCR}$, the maximal income from PRL at given operating P is calculated by the expression $S_{PCR} \cdot min(P-P_{min}, P_{max}-P)$.
 
 **Important remark:**
 As no reservoir is used up while offering PRL, it is always most profitable to offer maximal PRL capacity
 
-The total income is given by the sum electricity production and PRL: $S_{PRL}(P) =  S_{el} * P_{el} + S_{PRL} \cdot max(P-P_{min}, P_{max}-P)$
+The total income is given by the sum electricity production and PRL: $S_{PCR}(P) =  S_{el} * P_{el} + S_{PCR} \cdot max(P-P_{min}, P_{max}-P)$
 
 
 ![Screenshot](FigurePlots/PRLIncome.png)
@@ -99,10 +99,10 @@ The bent in the income curve is caused by the fact that the PRL band is maximal 
 
 ### Selection Algorithm
 
-Here the selection process is a bit more tricky: For each time period i is both possible that either $C^i_{PRL}(P_{max})$ or  $C^i_{PRL}(P_{max} + P_{min})/2)$ offer the best ratio between income and reservoir usage. The algorithm sorts the dataset according to $C^i_{PRL}(P_{max})$ and cosiders two cases: 
+Here the selection process is a bit more tricky: For each time period i is both possible that either $C^i_{PCR}(P_{max})$ or  $C^i_{PCR}(P_{max} + P_{min})/2)$ offer the best ratio between income and reservoir usage. The algorithm sorts the dataset according to $C^i_{PCR}(P_{max})$ and cosiders two cases: 
 
-1. It is more profitable to operate on two subsequent time periods $i$ and $j = i+1$ gaining $C^i_{PRL}(P_{max} + P_{min})/2)$ and $C^j_{PRL} (P_{max} + P_{min})/2)$ 
-2. It is profitable to operate on full capacity on time period $i$ gaining $C^i_{PRL}(P_{max})$
+1. It is more profitable to operate on two subsequent time periods $i$ and $j = i+1$ gaining $C^i_{PCR}(P_{max} + P_{min})/2)$ and $C^j_{PCR} (P_{max} + P_{min})/2)$ 
+2. It is profitable to operate on full capacity on time period $i$ gaining $C^i_{PCR}(P_{max})$
 
 ```python
     #sort dataset
