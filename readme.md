@@ -85,7 +85,7 @@ PRL regulation is symmetric. The maximal capacity PRL can be offered  is given b
 
 ![Screenshot](FigurePlots/PRLProd.png)
 
-With given price for PRL $S_{PRL}, the maximal income from PRL at given operating P is calculated by the expression $P_{PRL} \cdot min(P-P_{min}, P_{max}-P)$.
+With given price for PRL $S_{PRL}$, the maximal income from PRL at given operating P is calculated by the expression $S_{PRL} \cdot min(P-P_{min}, P_{max}-P)$.
 
 **Important remark:**
 As no reservoir is used up while offering PRL, it is always most profitable to offer maximal PRL capacity
