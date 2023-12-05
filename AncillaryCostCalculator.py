@@ -372,33 +372,37 @@ def plot():
     #fig.suptitle("Opportunity cost = " + str((income_as - income_el)/1000) + "kCHF", fontsize=14)
 
 
-    #ax1[0].set_title("Income form EL only = " + str(income_el/1000) + " kCHF", fontsize=11, x=0.5, y=0.85)
+    #ax1[0].set_title("Electricity Production and PCR")
     ax1[0].set_xlabel('Time')
-    ax1[0].set_ylabel('Operating Capacity EP [MW]',  color = 'red')
-    ax1[0].plot(output[0], output[1], 'r')
+    ax1[0].set_ylabel('Operating Power [MW]',  color = 'red')
+    ax1[0].plot(output[0], output[3], 'r')
     ax1[0].tick_params(axis ='y', labelcolor = 'red')
 
     ax2 = ax1[0].twinx()
-    ax2.set_ylabel('Remaining Reservoir [MWh]', color='blue')
+    ax2.set_ylabel('Reservoir Energy [MWh]', color='blue')
     ax2.plot(output[0], output[2], 'b')
     ax2.tick_params(axis='y', labelcolor='blue')
 
-
-    #ax1[1].set_title("Income from PRL + EL = " + str(income_as/1000) + " kCHF",  fontsize=11, x=0.5, y=0.85)
+    #ax1[1].set_title("Electricity Production only")
     ax1[1].set_xlabel('Time')
-    ax1[1].set_ylabel('Operating Capacity EP + PRL [MW]',  color = 'red')
-    ax1[1].plot(output[0], output[3], 'r')
+    ax1[1].set_ylabel('Operating Power [MW]',  color = 'red')
+    ax1[1].plot(output[0], output[1], 'r')
     ax1[1].tick_params(axis ='y', labelcolor = 'red')
 
+
+
+
     ax3 = ax1[1].twinx()
-    ax3.set_ylabel('Remaining Reservoir [MWh]', color='blue')
+    ax3.set_ylabel('Reservoir Energy [MWh]', color='blue')
     ax3.plot(output[0], output[4], 'b')
     ax3.tick_params(axis='y', labelcolor='blue')
 
-    fig.set_size_inches(7, 5)
+    fig.show()
+
+    #fig.set_size_inches(8, 8)
 
 
-    ASCost_label = Label(root, text="Income of Electricity Production with Ancillary Services [EUR] = " + str(income_as))
+    ASCost_label = Label(root, text="Income of Electricity Production and PCR [EUR] = " + str(income_as))
     ELCost_label = Label(root, text="Income of Electricity Production only [EUR] = " + str(income_el))
     DiffCost_label = Label(root, text="Income difference [EUR] = " + str(income_as - income_el))
 
@@ -409,13 +413,13 @@ def plot():
 
     # creating the Tkinter canvas
     # containing the Matplotlib figure
-    canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.draw()
-    canvas.get_tk_widget().grid(column=0, row=11)
+    #canvas = FigureCanvasTkAgg(fig, master=root)
+    #canvas.draw()
+    #canvas.get_tk_widget().grid(column=0, row=11)
 
     # creating the Matplotlib toolbar
-    toolbar = NavigationToolbar2Tk(canvas, root)
-    toolbar.update()
+   # toolbar = NavigationToolbar2Tk(canvas, root)
+   # toolbar.update()
 
 
 
@@ -443,19 +447,19 @@ input_year.set("")
 # Label is what output will be
 # show on the window
 
-Pmax_label = Label(root, text ='Maximal Capacity [MW]')
+Pmax_label = Label(root, text ='Maximal Power [MW]')
 Pmax_label.grid(column=0, row=0)
 
 Pmax_entry = Entry(root, textvariable=Pmax)
 Pmax_entry.grid(column=0, row=1)
 
-Pmin_label = Label(root, text = "Minimal Capacity [MW]")
+Pmin_label = Label(root, text = "Minimal Power [MW]")
 Pmin_label.grid(column=0, row=2)
 
 Pmin_entry = Entry(root, textvariable=Pmin)
 Pmin_entry.grid(column=0, row=3)
 
-Res_label = Label(root, text ='Reservoir Capacity [MWh]')
+Res_label = Label(root, text ='Reservoir Energy [MWh]')
 Res_label.grid(column=0, row=4)
 
 Res_entry = Entry(root, textvariable=res)
