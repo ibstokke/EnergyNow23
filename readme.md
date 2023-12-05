@@ -43,7 +43,7 @@ The prices of electricity S<sub>el</sub> vary on hourly basis. For each hour the
 ![Screenshot](FigurePlots/ElIncome.png)
 
 ### Selection Algorithm: 
-The most profitable mode of operation is running the plant at times when the income is maximal while minimalizing the reservoir usage. In case of Electricity production mode of operation the income curves are linear, making this calculation is straightforward: The time periods with the highest electricity prices $S_{el}$ are the most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
+The most profitable mode of operation is running the plant at times when the income is maximal while minimalizing the reservoir usage. In case of Electricity production mode of operation the income curves are linear, making this calculation straightforward: The time periods with the highest electricity prices $S_{el}$ are the most profitable. The algorithm first sorts the dataset from highest $S_{el}$ to lowest, than chooses $C_{el}(P_{max})$ until reservoir is used up: 
 
 ```python
     #order the result table containing the electricity prices
@@ -78,7 +78,7 @@ The most profitable mode of operation is running the plant at times when the inc
 ## Electricity Production and Primary Control Reserves <a name="PRL"></a>
 
 ### Assumptions
-- Price-as-clear: One price for Primary Control Reserves operation mode $S_{PCR}$: highest accepted bid sets the price for all.
+- Price-as-clear: One price $S_{PCR}$ for Primary Control Reserves operation mode : highest accepted bid sets the price for all.
 - While offering PRL, the downwards and upwards regulation contribute equally to overall capacity. While operating the power plant at capacity $P$ those contributions add up to zero: no resulting reservoir usage.
 
 PRL regulation is symmetric. The maximal capacity PRL can be offered  is given by the minimal difference between the operating capacity and either maximal and minimal operating capcity: 
