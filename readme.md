@@ -85,7 +85,7 @@ PCR regulation is symmetric. The maximal capacity PCR can be offered  is given b
 
 ![Screenshot](FigurePlots/PCRProd.png)
 
-With given price for PCR $S_{PCR}$, the maximal income from PCR at given operating P is calculated by the expression $S_{PCR} \cdot min(P-P_{min}, P_{max}-P)$.
+With given PCR price for $S_{PCR}$, the maximal income from PCR at given operating P is calculated by the expression $S_{PCR} \cdot min(P-P_{min}, P_{max}-P)$.
 
 **Important remark:**
 As no reservoir is used up while offering PCR, it is always most profitable to offer maximal PCR capacity
@@ -102,7 +102,7 @@ The bent in the income curve is caused by the fact that the PCR band is maximal 
 Here the selection process is a bit more tricky: For each time period i is both possible that either $C^i_{PCR}(P_{max})$ or  $C^i_{PCR}(P_{max} + P_{min})/2)$ offer the best ratio between income and reservoir usage. The algorithm sorts the dataset according to $C^i_{PCR}(P_{max})$ and cosiders two cases: 
 
 1. It is more profitable to operate on two subsequent time periods $i$ and $j = i+1$ gaining $C^i_{PCR}(P_{max} + P_{min})/2)$ and $C^j_{PCR} (P_{max} + P_{min})/2)$ 
-2. It is profitable to operate on full capacity on time period $i$ gaining $C^i_{PCR}(P_{max})$
+2. It is more profitable to operate on full capacity on time period $i$ gaining $C^i_{PCR}(P_{max})$
 
 ```python
     #sort dataset
